@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>불합격 문자의 겨울이 지나고 — 취업성공 사례집</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #fffdf8;
+            --cover-bg: #fff8f0;
+            --ink: #3a3028;
+            --ink-sub: #6b5f52;
+            --ink-mute: #a89880;
+            --rust: #c4673e;
+            --sage: #7aaa80;
+            --peach: #f5b89a;
+            --blush: #f9ddd0;
+            --mint: #c2e0c8;
+            --lavender: #ddd0ee;
+            --butter: #f5e8a0;
+            --gold: #d4a84b;
+            --rule: #ecddd0;
+            --w: 148mm;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: #f0ebe3;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 16px 100px;
+            font-family: 'Gowun Batang', 'Noto Serif KR', serif;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .book { width: 100%; max-width: var(--w); }
+        .page {
+            background: var(--cream);
+            width: 100%;
+            margin-bottom: 6px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 20px rgba(100,80,50,.10), 0 6px 40px rgba(100,80,50,.06);
+        }
+
+        /* ── 표지 ── */
+        .cover {
+            background: var(--cover-bg);
+            min-height: 210mm;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .c-blob { position: absolute; border-radius: 50%; pointer-events: none; }
+        .cb1 { width:260px;height:220px;background:var(--peach);   filter:blur(80px);opacity:.55;top:-60px; left:-60px; }
+        .cb2 { width:200px;height:200px;background:var(--mint);    filter:blur(70px);opacity:.45;top:-20px; right:-50px; }
+        .cb3 { width:180px;height:180px;background:var(--lavender);filter:blur(65px);opacity:.50;bottom:30px;right:-30px; }
+        .cb4 { width:200px;height:150px;background:var(--butter);  filter:blur(70px);opacity:.45;bottom:10px;left:20%; }
+        .cb5 { width:150px;height:150px;background:var(--blush);   filter:blur(60px);opacity:.50;bottom:-20px;left:-30px; }
+
+        .cover-inner {
+            position: relative; z-index: 2;
+            width: 100%; min-height: 210mm;
+            display: flex; flex-direction: column; align-items: center;
+            padding: 18mm 16mm 14mm;
+        }
+        .cover-series {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 7.5pt; letter-spacing: 4px;
+            color: var(--rust); opacity: .80; margin-bottom: 14mm;
+        }
+        .cover-title-box {
+            background: rgba(255,255,255,.65);
+            border: 1px solid rgba(255,255,255,.88);
+            border-radius: 4px;
+            padding: 8mm 10mm 7mm;
+            text-align: center; width: 100%; margin-bottom: 5mm;
+            box-shadow: 0 2px 16px rgba(180,120,80,.08);
+        }
+        .cover-title-main {
+            font-family: 'Gowun Batang', serif;
+            font-size: 22pt; font-weight: 700;
+            color: var(--ink); line-height: 1.45; margin-bottom: 3mm;
+        }
+        .cover-rule {
+            width: 50px; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--rust), transparent);
+            opacity: .45; margin: 0 auto 3mm;
+        }
+        .cover-title-sub {
+            font-family: 'Gowun Batang', serif;
+            font-size: 16pt; font-weight: 400;
+            color: var(--rust); line-height: 1.55;
+        }
+        .cover-desc {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 9.5pt; color: var(--ink-sub);
+            font-weight: 300; letter-spacing: .5px;
+        }
+        .cover-meta { margin-top: auto; text-align: center; }
+        .cover-inst {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 8pt; color: var(--ink-mute);
+            letter-spacing: 2px; margin-bottom: 2mm;
+        }
+        .cover-year {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 7.5pt; color: var(--ink-mute); opacity: .65;
+        }
+
+        /* ── 속표지 ── */
+        .halftitle {
+            padding: 12mm 18mm; display: flex;
+            flex-direction: column; align-items: center; justify-content: center;
+            min-height: 40mm; border-bottom: 1px solid var(--rule);
+        }
+        .halftitle p {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 10pt; color: var(--ink-sub);
+            text-align: center; line-height: 1.90; font-weight: 300;
+        }
+
+        /* ── 목차 ── */
+        .toc { padding: 12mm 16mm 10mm; }
+        .sec-label {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 7.5pt; letter-spacing: 4px; color: var(--rust); display: block; margin-bottom: 3mm;
+        }
+        .sec-title {
+            font-family: 'Gowun Batang', serif;
+            font-size: 17pt; color: var(--ink); font-weight: 700; margin-bottom: 7mm;
+        }
+        .toc-rule { height:1px; background:linear-gradient(90deg,var(--rust),transparent); margin-bottom:7mm; opacity:.35; }
+        .toc-row { display:flex; align-items:baseline; gap:6px; margin-bottom:5mm; }
+        .toc-n { font-family:'Noto Sans KR',sans-serif; font-size:7pt; color:var(--rust); min-width:22px; font-weight:500; }
+        .toc-t { font-family:'Gowun Batang',serif; font-size:10pt; color:var(--ink-sub); flex:1; line-height:1.6; }
+        .toc-t a { text-decoration:none; color:inherit; }
+        .toc-t a:hover { color:var(--rust); }
+
+        /* ── 챕터 ── */
+        .chap { background: #ffffff; }
+        .chap-hd {
+            padding: 7mm 14mm 5mm;
+            background: #ffffff;
+        }
+        .chap-hd::before { display: none !important; }
+        .hd-blob { display: none !important; }
+        .chap-n {
+            font-family:'Noto Sans KR',sans-serif; font-size:7pt;
+            letter-spacing:3px; color:var(--rust); font-weight:500;
+            display:block; margin-bottom:2.5mm;
+        }
+        .chap-title {
+            font-family:'Gowun Batang',serif; font-size:14pt;
+            font-weight:700; color:#1a1a1a; line-height:1.42; margin-bottom:1.5mm;
+        }
+        .chap-sub {
+            font-family:'Noto Serif KR',serif; font-size:9pt;
+            color:#888; font-weight:300;
+        }
+        .chap-hd-rule {
+            height:1px;
+            background:linear-gradient(90deg,var(--rust),transparent);
+            opacity:.25; margin:0 14mm;
+        }
+        .chap-body { padding:5mm 14mm 7mm; background:#ffffff; }
+        .chap-body p {
+            font-family:'Gowun Batang','Noto Serif KR',serif;
+            font-size:9.5pt; line-height:1.85; color:#1a1a1a;
+            text-align:justify; word-break:keep-all;
+        }
+        .chap-body p + p { text-indent:1em; }
+        .quote {
+            margin:3.5mm 0; padding:3mm 7mm 3mm 9mm;
+            border-left:2.5px solid var(--rust);
+            background:#fff8f4;
+            border-radius:0 3px 3px 0;
+        }
+        .quote p { font-style:italic; color:#1a1a1a!important; text-indent:0!important; font-size:9.5pt!important; line-height:1.85!important; }
+        .policy {
+            margin:5mm 0; padding:4mm 7mm;
+            background:#f4faf5;
+            border:1px solid rgba(122,170,128,.35); border-radius:3px;
+        }
+        .policy-ttl {
+            font-family:'Noto Sans KR',sans-serif; font-size:8pt;
+            font-weight:700; color:#1a1a1a; margin-bottom:1.5mm;
+        }
+        .policy p { font-size:9.5pt!important; line-height:1.85!important; text-indent:0!important; color:#1a1a1a!important; }
+        .kw { color:#1a1a1a; font-weight:700; }
+        .chap-end { text-align:center; padding:2.5mm 0 2mm; font-size:11pt; letter-spacing:6px; color:var(--rule); }
+        .pg-foot {
+            padding:2mm 14mm 3mm; display:flex; justify-content:space-between;
+            border-top:1px solid var(--rule);
+        }
+        .pg-num { font-family:'Noto Sans KR',sans-serif; font-size:7.5pt; color:var(--ink-mute); }
+        .pg-rt  { font-family:'Noto Sans KR',sans-serif; font-size:7pt; color:var(--rule); letter-spacing:1px; }
+        .epilogue-hd::before { background:#f8fcf8!important; }
+
+        /* ── 뒷표지 ── */
+        .back-cover {
+            background:var(--cover-bg); min-height:210mm;
+            display:flex; flex-direction:column; align-items:center;
+            position:relative; overflow:hidden;
+        }
+        .back-inner {
+            position:relative; z-index:2; width:100%; min-height:210mm;
+            display:flex; flex-direction:column; align-items:center;
+            padding:16mm 16mm 14mm;
+        }
+        .back-quote { margin-top:auto; margin-bottom:6mm; text-align:center; }
+        .back-quote strong {
+            display:block; font-family:'Gowun Batang',serif;
+            font-size:15pt; color:var(--rust); margin-bottom:4mm; font-weight:700;
+        }
+        .back-quote p {
+            font-family:'Noto Serif KR',serif; font-size:10pt;
+            color:var(--ink-sub); line-height:1.90; font-weight:300;
+        }
+        .back-rule {
+            width:50px; height:1px;
+            background:linear-gradient(90deg,transparent,var(--rust),transparent);
+            opacity:.35; margin:5mm auto;
+        }
+        .back-inst {
+            font-family:'Noto Sans KR',sans-serif; font-size:8pt;
+            color:var(--ink-mute); letter-spacing:2px; text-align:center; margin-top:auto;
+        }
+
+        /* ── 버튼 ── */
+        .dl-btn {
+            position:fixed; bottom:28px; right:28px;
+            background:var(--rust); color:#fff; border:none;
+            padding:12px 22px; border-radius:100px;
+            font-family:'Noto Sans KR',sans-serif; font-size:10pt; font-weight:500;
+            cursor:pointer; box-shadow:0 4px 20px rgba(196,103,62,.35);
+            z-index:999; display:flex; align-items:center; gap:8px;
+            transition:transform .2s, box-shadow .2s;
+        }
+        .dl-btn:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(196,103,62,.45); }
+        .dl-btn:disabled { opacity:.6; cursor:not-allowed; transform:none; }
+
+        @media print {
+            @page { size:A5 portrait; margin:0; }
+            body { background:white; padding:0; display:block; }
+            .book { max-width:100%; }
+            .page { page-break-after:always; box-shadow:none; margin-bottom:0; }
+            .dl-btn { display:none!important; }
+        }
+        @media (max-width:600px) { body { padding:10px 4px 80px; } :root { --w:100%; } }
+    </style>
+</head>
+<body>
+<div class="book" id="book">
+
+<!-- 표지 -->
+<div class="page cover">
+    <div class="c-blob cb1"></div><div class="c-blob cb2"></div>
+    <div class="c-blob cb3"></div><div class="c-blob cb4"></div><div class="c-blob cb5"></div>
+    <div class="cover-inner">
+        <div class="cover-series">취업성공 사례집 · 2026</div>
+        <div class="cover-title-box">
+            <div class="cover-title-main">불합격 문자의 겨울이<br>지나고</div>
+            <div class="cover-rule"></div>
+            <div class="cover-title-sub">어느 부부의<br>정착 일지</div>
+        </div>
+        <div class="cover-desc">어느 직업상담사의 동행 기록</div>
+        <div class="cover-meta">
+            <div class="cover-inst">목포고용센터 · 취업지원총괄팀</div>
+            <div class="cover-year">2026</div>
+        </div>
+    </div>
+</div>
+
+<!-- 속표지 -->
+<div class="page halftitle">
+    <p>수십 번의 불합격 끝에 멈춰 있던 발걸음이,<br>다시 앞으로 향하기 시작한 기록</p>
+</div>
+
+<!-- 목차 -->
+<div class="page toc">
+    <span class="sec-label">Contents</span>
+    <h2 class="sec-title">차례</h2>
+    <div class="toc-rule"></div>
+    <div class="toc-row"><span class="toc-n">1장</span><span class="toc-t"><a href="#case02-ch1">열어 보기 겁나던 문자함</a></span></div>
+    <div class="toc-row"><span class="toc-n">2장</span><span class="toc-t"><a href="#case02-ch2">연고 없는 고장에서 다시 시작하기</a></span></div>
+    <div class="toc-row"><span class="toc-n">3장</span><span class="toc-t"><a href="#case02-ch3">역량이 아니라 좌절이었다</a></span></div>
+    <div class="toc-row"><span class="toc-n">4장</span><span class="toc-t"><a href="#case02-ch4">이미 갖춘 자격을 근무처의 언어로</a></span></div>
+    <div class="toc-row"><span class="toc-n">5장</span><span class="toc-t"><a href="#case02-ch5">근무할 곳의 언어로 다시 쓴 서류</a></span></div>
+    <div class="toc-row"><span class="toc-n">6장</span><span class="toc-t"><a href="#case02-ch6">안도의 눈물</a></span></div>
+    <div class="toc-row"><span class="toc-n">7장</span><span class="toc-t"><a href="#case02-ch7">한 사람의 취업이 두 번째 취업이 되기까지</a></span></div>
+    <div class="toc-row"><span class="toc-n" style="color:var(--sage)">에필</span><span class="toc-t" style="color:var(--sage)"><a href="#case02-epilogue" style="color:inherit">맞는 자리는 있었다</a></span></div>
+    <div class="pg-foot" style="margin-top:8mm;"><span class="pg-num">목차</span><span class="pg-rt">불합격 문자의 겨울이 지나고</span></div>
+</div>
+
+<!-- 1장 -->
+<div class="page chap" id="case02-ch1">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--blush)"></div>
+        <span class="chap-n">Chapter 01</span>
+        <h2 class="chap-title">열어 보기 겁나던 문자함</h2>
+        <span class="chap-sub">첫 만남: 위로가 먼저인 상담</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>서연 씨와의 첫 만남은 4월 20일, 전화와 센터 방문으로 이어졌다.</p>
+        <p>그녀는 계약직으로 일하다 재계약이 되지 않았다고 했다. 그 뒤 추운 겨울 내내 일자리를 찾아 다녔다. 이력서를 수십 곳에 냈고 면접도 보았지만, 돌아오는 것은 불합격을 알리는 문자뿐이었다. 그때의 절망감을 지금도 잊지 못할 만큼, 서연 씨는 구직에 지쳐 있었다.</p>
+        <p>구직자가 센터를 찾으면 상담사는 습관처럼 묻게 된다. 어떤 일을 찾으세요, 경력은 어떻게 되세요. 필요한 질문이지만, 그날은 그 질문을 뒤로 미뤘다. 직업상담에서 말하는 관계 형성(라포)이란 결국 순서의 문제다. 정보를 묻는 일은 신뢰가 생긴 뒤에야 제 값을 한다.</p>
+        <!-- [재구성] -->
+        <p>“요즘 많이 힘드셨죠.” 나는 그 말부터 건넸다.</p>
+        <!-- [재구성] -->
+        <div class="quote"><p>“겨울 내내 이력서를 냈는데, 오는 건 불합격 문자뿐이었어요.”</p></div>
+        <p>나는 그 말을 바로잡거나 서둘러 해법으로 옮기지 않았다. 이야기가 끝날 때까지 들었다. 실직 경위와 경제 상황, 이주 일정, 기존 경력과 일하고 싶은 곳을 하나씩 묻기 시작한 것은 그다음이었다.</p>
+        <p>이 상담을 서연 씨는 훗날 센터 홈페이지의 ‘칭찬합시다’ 게시판에 이렇게 적었다.</p>
+        <div class="quote"><p>“힘든 제 사정을 위로해 주시고, 기존 경력과 앞으로 근무하고 싶은 곳에 대해 많은 이야기를 나눴습니다.”</p></div>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">1</span><span class="pg-rt">불합격 문자의 겨울이 지나고</span></div>
+</div>
+<!-- 2장 -->
+<div class="page chap" id="case02-ch2">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--butter)"></div>
+        <span class="chap-n">Chapter 02</span>
+        <h2 class="chap-title">연고 없는 고장에서 다시 시작하기</h2>
+        <span class="chap-sub">상황의 전모</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>서연 씨가 일하던 곳은 계약직이었고, 계약은 연장되지 않았다. 사회복지사 자격과 경력이 있었지만 겨울이 지나도록 일자리를 구하지 못했다.</p>
+        <p>부부는 살던 곳을 떠나 서연 씨의 친정이 있는 이 고장으로 오기로 했다. 그러나 가족이 가까이 있다고 해서 일자리 정보까지 가까이 있는 것은 아니었다. 서연 씨는 아는 사람 한 명 없는 곳에서 일자리를 찾아야 하는 막막함 앞에 서 있었다. 실업급여 수급도 끝난 상태였다.</p>
+        <p>목표는 분명했다. 이 고장 안의 복지 분야 일자리. 필요한 자격은 이미 갖고 있었다.</p>
+        <p>이 고장에는 사회복지시설과 청소년 상담복지기관의 전문인력 수요가 있다. 하지만 외부에서 옮겨 온 구직자는 그런 정보에 닿기가 어렵다. 서연 씨에게 필요한 것은 그 정보로 가는 길이었다.</p>
+        <div class="policy">
+            <div class="policy-ttl">📋 첫 상담 당시의 서연 씨</div>
+            <p>가구 · 부부 가구, 서연 씨의 친정이 있는 고장으로 이주<br>
+            소득 · 실업급여 수급 종료<br>
+            보유 자격 · 사회복지사<br>
+            초기 목표 · 이 고장 안의 복지 분야 취업<br>
+            초기 상태 · 계약 종료 후 수십 곳에 지원했으나 불합격이 반복되어 좌절한 상태</p>
+        </div>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">2</span><span class="pg-rt">불합격 문자의 겨울이 지나고</span></div>
+</div>
+<!-- 3장 -->
+<div class="page chap" id="case02-ch3">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--mint)"></div>
+        <span class="chap-n">Chapter 03</span>
+        <h2 class="chap-title">역량이 아니라 좌절이었다</h2>
+        <span class="chap-sub">재진단과 상담 방향</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>서연 씨가 가져온 호소는 한 줄이었다. 일자리를 구하기가 어렵다는 것.</p>
+        <p>그러나 이야기를 듣고 보니 그 한 줄 아래에는 다른 문제가 있었다. 사회복지사 자격과 경력이라는 분명한 자원이 있었다. 부족한 것은 역량이 아니었다. 수십 번 되풀이된 불합격이 구직 의욕을 꺾어 놓았고, 이 고장의 채용 정보와는 이어지지 못한 상태였다.</p>
+        <p>직업상담에서는 이것을 문제의 재정의라고 한다. 구직자가 말하는 표면의 호소와 상담에서 드러나는 실제 장애요인은 다를 때가 많다. ‘일자리 구하기가 어렵다’는 말을 ‘반복된 불합격이 만든 좌절과 지역 채용정보의 단절’로 다시 정의하자, 상담이 향할 곳이 달라졌다. 부족한 역량을 채우는 상담이 아니라, 꺾인 의욕을 되살리고 이미 가진 자격을 다시 내보이는 상담이 된 것이다.</p>
+        <p>서류도 살폈다. 서연 씨는 지원처를 가리지 않고 같은 서류를 내 왔다. 지원처의 특성에 맞추지 않은 서류가 탈락의 한 요인일 수 있다고 보았다. 그래서 접근 방식을 ‘근무하려는 곳에 맞게 준비하는 것’으로 정했다.</p>
+        <div class="policy">
+            <div class="policy-ttl">🧭 표면 호소와 재진단</div>
+            <p>표면 호소 · 일자리를 구하기 어렵다<br>
+            재진단 · 역량 부족이 아니라 반복된 불합격이 만든 좌절, 그리고 지역 채용정보와의 단절<br>
+            접근 방식 · 근무하려는 곳에 맞춰 준비하기</p>
+        </div>
+        <div class="policy">
+            <div class="policy-ttl">🏛️ 아이컨택 상담 5단계</div>
+            <p>‘EYE로 소통하고, AI로 분석하며, I를 완성한다’는 통합취업지원 모델 아이컨택의 흐름에 따라 이 사례는 진단 → 검증 → 번역 → 실행 → 성장의 5단계로 정리된다.</p>
+        </div>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">3</span><span class="pg-rt">불합격 문자의 겨울이 지나고</span></div>
+</div>
+<!-- 4장 -->
+<div class="page chap" id="case02-ch4">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--lavender)"></div>
+        <span class="chap-n">Chapter 04</span>
+        <h2 class="chap-title">이미 갖춘 자격을 근무처의 언어로</h2>
+        <span class="chap-sub">강점 관점의 재해석과 목표 구체화</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>4월 20일부터 23일까지, 나는 서연 씨와 함께 자격과 경력, 일하고 싶은 곳을 하나씩 따져 보았다.</p>
+        <p>사회복지사 자격과 경력은 이 고장의 복지시설 채용과 곧바로 이어지는 자격이었다. 지역에서 바로 쓰일 자격을 이미 갖추고 있다는 사실을 함께 확인하자, 막연하던 좌절이 구체적인 목표로 바뀌기 시작했다.</p>
+        <p>강점 관점의 재해석이란 불합격 목록에서 약점을 찾는 일이 아니라, 이미 가진 것을 다시 읽어 주는 일이다. 서연 씨에게 그 말은 위로이면서 근거였다.</p>
+        <p>목표는 하나로 좁혔다. 이 고장 안의 복지시설 취업. 과제는 세 단계로 나누었다. 구인, 서류, 면접.</p>
+        <p>4월 23일에는 자격과 희망 근무 조건에 맞는 관내 사회복지시설의 구인정보를 확인하고 승인해 곧바로 안내했다. 상담을 시작한 지 사흘 만에 지원할 일자리가 정해진 것이다.</p>
+        <p>나는 이 속도가 중요하다고 보았다. 구체적인 기회를 상담 초기에 내미는 일 자체가 꺾인 구직 동기를 되살리는 개입이 되기 때문이다.</p>
+        <div class="policy">
+            <div class="policy-ttl">📍 3단계 과제와 일정</div>
+            <p>4. 20. 첫 상담 → 4. 23. 지원처 확정 (사흘)<br>
+            ① 구인 · 관내 사회복지시설 구인정보 확인·승인·안내<br>
+            ② 서류 · 근무처에 맞춘 이력서와 자기소개서<br>
+            ③ 면접</p>
+        </div>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">4</span><span class="pg-rt">불합격 문자의 겨울이 지나고</span></div>
+</div>
+<!-- 5장 -->
+<div class="page chap" id="case02-ch5">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--peach)"></div>
+        <span class="chap-n">Chapter 05</span>
+        <h2 class="chap-title">근무할 곳의 언어로 다시 쓴 서류</h2>
+        <span class="chap-sub">구직활동 지원: 근무처 맞춤 서류 코칭</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>이전의 서류로는 탈락이 되풀이되었다. 4월 23일부터 5월 1일까지, 우리는 서류를 다시 들여다보았다.</p>
+        <p>이력서와 자기소개서를 근무할 곳의 특성에 맞춰 준비하도록 체계적으로 안내했고, 경력과 강점의 순서를 다시 배치했다. 같은 경력이라도 어디에 먼저 놓느냐에 따라 읽는 사람이 보는 것이 달라진다.</p>
+        <p>서류를 고치는 동안 내가 지키려 한 것은 하나였다. 고치는 손은 서연 씨의 손이어야 한다는 것. 서연 씨는 서류를 직접 보완했고, 면접에도 적극적으로 나섰다. 수십 번 탈락한 뒤에 다시 지원하는 일이 쉬웠을 리 없다.</p>
+        <div class="policy">
+            <div class="policy-ttl">📝 서류의 변화</div>
+            <p>상담 전 · 불특정 다수에 제출해 온 서류<br>
+            상담 후 · 근무처의 요구조건에 맞춰 경력과 강점을 앞세운 서류<br>
+            기간 · 4. 23. ~ 5. 1.</p>
+        </div>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">5</span><span class="pg-rt">불합격 문자의 겨울이 지나고</span></div>
+</div>
+<!-- 6장 -->
+<div class="page chap" id="case02-ch6">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--blush)"></div>
+        <span class="chap-n">Chapter 06</span>
+        <h2 class="chap-title">안도의 눈물</h2>
+        <span class="chap-sub">취업 과정: 면접과 취업 확정</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>5월 1일, 서연 씨는 면접을 거쳐 사회복지시설에 채용되었다. 4월 20일 첫 상담에서 열하루 만이었다.</p>
+        <p>이 과정에서 센터와 시설의 역할은 나뉘어 있었다. 센터는 서연 씨의 상황과 자격, 희망 근무처를 파악하고, 구인정보를 확인·승인하고, 서류를 코칭하고, 알선했다. 면접과 채용은 시설의 몫이다. 우리가 한 일은 서연 씨의 직무 강점과 기관이 요구하는 조건을 미리 맞추어 이어 주는 것이었다.</p>
+        <p>채용이 확정된 순간을 서연 씨는 훗날 이렇게 적었다.</p>
+        <div class="quote"><p>“그 덕분에 제가 원하는 복지시설에 취업할 수 있었습니다. 취업이 확정된 순간 안도의 눈물이 흘렀습니다.”</p></div>
+        <p>첫 만남에서 불합격 문자 이야기를 하던 사람이, 이번에는 안도의 눈물을 이야기하고 있었다.</p>
+        <div class="policy">
+            <div class="policy-ttl">🏛️ 취업 결과</div>
+            <p>취업일 · 2026. 5. 1.<br>
+            소요 기간 · 첫 상담(4. 20.)부터 11일<br>
+            직무 · 보유 자격과 직결된 사회복지시설 직무<br>
+            센터의 역할 · 상황·자격·희망 근무처 파악, 구인정보 확인·승인, 서류 코칭, 알선, 사후관리<br>
+            시설의 역할 · 면접과 채용</p>
+        </div>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">6</span><span class="pg-rt">불합격 문자의 겨울이 지나고</span></div>
+</div>
+<!-- 7장 -->
+<div class="page chap" id="case02-ch7">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--butter)"></div>
+        <span class="chap-n">Chapter 07</span>
+        <h2 class="chap-title">한 사람의 취업이 두 번째 취업이 되기까지</h2>
+        <span class="chap-sub">자립 확인: 사후관리와 가구 단위 지원</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>취업이 확정된 뒤에도 상담은 끝나지 않았다. 6월, 취업 후 적응을 점검하는 정기 연락 중에 서연 씨의 남편 도윤 씨도 일자리를 찾고 있다는 사실을 알게 되었다.</p>
+        <p>가구의 정착은 한 사람의 취업만으로 끝나지 않는다. 나는 도윤 씨의 참여 의사를 먼저 확인했고, 뜻을 확인한 뒤에 지원 범위를 넓혔다. 도윤 씨는 청소년 상담복지 분야의 자격을 가지고 있었다.</p>
+        <p>6월 11일, 그 자격에 맞는 청소년 상담복지센터의 구인정보를 발굴해 알선했고, 7월 1일 도윤 씨는 출근했다. 서연 씨가 일을 시작한 지 두 달 만에 같은 가구에서 나온 두 번째 취업이었다. 두 기관이 요구하는 직무의 성격이 달랐기 때문에, 서류와 접근도 각각 다르게 적용했다.</p>
+        <p>7월 9일, 서연 씨는 ‘칭찬합시다’ 게시판에 다시 글을 올렸다. 취업 후 두 달이 넘은 때였다. 그때를 이렇게 적었다.</p>
+        <div class="quote"><p>“삶의 벼랑 끝에서 큰 도움을 받아”</p><p>“진심으로 다시 한번 감사드립니다.”</p></div>
+        <p>10월 21일 현재 두 사람은 모두 주 5일 40시간 일하며 재직 중이다. 고용유지는 앞으로도 정기적으로 확인한다.</p>
+        <div class="policy">
+            <div class="policy-ttl">👫 상담 전후, 한 가구의 변화</div>
+            <p>문제 인식 · 수십 곳 불합격 후의 절망 → 보유 자격이 지역 채용 수요와 이어진다는 인식<br>
+            구직 목표 · 막연한 구직 → 이 고장 복지시설이라는 단계별 목표<br>
+            취업 결과 · 서연 씨 5. 1. 취업 / 도윤 씨 6. 11. 알선, 7. 1. 출근<br>
+            가구 · 생계 부담과 이주 후 불안 → 부부 모두 지역 안에서 자격과 직결된 직무에 취업</p>
+        </div>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">7</span><span class="pg-rt">불합격 문자의 겨울이 지나고</span></div>
+</div>
+
+<!-- 에필로그 -->
+<div class="page chap" id="case02-epilogue">
+    <div class="chap-hd epilogue-hd"><div class="hd-blob" style="background:var(--mint)"></div>
+        <span class="chap-n" style="color:var(--sage)">Epilogue</span>
+        <h2 class="chap-title">맞는 자리는 있었다</h2>
+        <span class="chap-sub">상담사로서 다시 새긴 것</span>
+    </div>
+    <div class="chap-hd-rule" style="background:linear-gradient(90deg,var(--sage),transparent)"></div>
+    <div class="chap-body">
+        <p>서연 씨 부부의 사례를 정리하며 상담일지를 다시 넘겨 보았다.</p>
+        <p>처음 센터에 온 서연 씨에게 필요했던 것은 해법보다 위로였다. 질문은 그다음이었다. 수십 곳에서 떨어진 사람에게 필요한 말은 역량을 높이라는 말이 아니라, 이미 가진 것이 쓰일 곳이 있다는 확인이었다.</p>
+        <p>돌아보면 이 사례를 움직인 것은 이런 일들이었다. 먼저 위로하고 들은 일. 사흘 만에 구체적인 기회를 내민 일. 서류를 근무처의 언어로 다시 쓰게 하되 고치는 손은 구직자에게 맡긴 일. 그리고 취업 이후의 연락을 종결 절차로 두지 않은 일. 그 연락 속에서 남편의 구직 수요가 보였다.</p>
+        <p>다만 이 이야기에는 아직 닫히지 않은 부분이 있다. 재직 확인은 10월 21일 기준이고, 고용유지는 앞으로도 계속 확인해야 한다. 또 두 사람이 일을 시작한 데는 서류를 고치고 면접에 나선 서연 씨 자신의 실행이 가장 컸다.</p>
+        <p>수십 번의 불합격은 능력의 판정이 아니었다. 맞는 자리가 아직 눈에 보이지 않았을 뿐이다. 지금도 어딘가에서 불합격 문자를 열어 보기 겁내고 있을 구직자가 있다면, 이 말을 전하고 싶다. 맞는 자리는 있다.</p>
+    </div>
+    <div class="chap-end" style="color:var(--sage);font-size:13pt;">— ❀ —</div>
+    <div class="pg-foot"><span class="pg-num">에필로그</span><span class="pg-rt">불합격 문자의 겨울이 지나고</span></div>
+</div>
+
+<!-- 뒷표지 -->
+<div class="page back-cover">
+    <div class="c-blob cb2"></div><div class="c-blob cb4"></div>
+    <div class="c-blob" style="width:180px;height:180px;background:var(--blush);filter:blur(70px);opacity:.50;bottom:-20px;left:-30px;position:absolute;"></div>
+    <div class="back-inner">
+        <div style="margin-top:auto;text-align:center;">
+            <svg width="90" height="62" viewBox="0 0 90 62" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:7mm;opacity:.82;">
+                <ellipse cx="26" cy="50" rx="14" ry="7" fill="rgba(110,175,120,.34)" transform="rotate(-26 26 50)"/>
+                <ellipse cx="64" cy="48" rx="12" ry="6" fill="rgba(110,175,120,.27)" transform="rotate(20 64 48)"/>
+                <path d="M45 53 Q41 38 35 22" stroke="rgba(90,155,100,.60)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+                <path d="M45 53 Q48 36 56 19" stroke="rgba(90,155,100,.50)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+                <path d="M45 53 Q45 36 45 17" stroke="rgba(90,155,100,.55)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+                <ellipse cx="37" cy="18" rx="7" ry="4" fill="rgba(249,200,175,.72)" transform="rotate(-40 37 18)"/>
+                <ellipse cx="47" cy="17" rx="7" ry="4" fill="rgba(249,200,175,.66)" transform="rotate(40 47 17)"/>
+                <ellipse cx="36" cy="27" rx="7" ry="4" fill="rgba(249,200,175,.62)" transform="rotate(-140 36 27)"/>
+                <ellipse cx="47" cy="27" rx="7" ry="4" fill="rgba(249,200,175,.66)" transform="rotate(140 47 27)"/>
+                <circle cx="42" cy="22" r="5.5" fill="rgba(245,215,105,.88)"/>
+                <circle cx="42" cy="22" r="2.8" fill="rgba(238,205,55,1)"/>
+                <ellipse cx="56" cy="15" rx="6" ry="3.5" fill="rgba(210,188,232,.68)" transform="rotate(-40 56 15)"/>
+                <ellipse cx="65" cy="15" rx="6" ry="3.5" fill="rgba(210,188,232,.62)" transform="rotate(40 65 15)"/>
+                <ellipse cx="55" cy="23" rx="6" ry="3.5" fill="rgba(210,188,232,.58)" transform="rotate(-140 55 23)"/>
+                <ellipse cx="66" cy="23" rx="6" ry="3.5" fill="rgba(210,188,232,.62)" transform="rotate(140 66 23)"/>
+                <circle cx="60" cy="19" r="5" fill="rgba(245,215,105,.80)"/>
+                <circle cx="60" cy="19" r="2.3" fill="rgba(238,205,55,1)"/>
+                <ellipse cx="14" cy="38" rx="4" ry="2" fill="rgba(249,200,175,.38)" transform="rotate(-26 14 38)"/>
+                <ellipse cx="78" cy="34" rx="3.5" ry="1.8" fill="rgba(210,188,232,.34)" transform="rotate(16 78 34)"/>
+            </svg>
+            <div class="back-quote">
+                <strong>"맞는 자리는 있다."</strong>
+                <p>수십 번의 불합격 끝에<br>나란히 일을 시작한 부부의 기록</p>
+            </div>
+            <div class="back-rule"></div>
+        </div>
+        <div class="back-inst">목포고용센터 취업지원총괄팀<br>취업성공 사례집 · 2026</div>
+    </div>
+</div>
+
+</div><!-- /book -->
+
+<button class="dl-btn" id="dlBtn" onclick="downloadPDF()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    PDF 다운로드
+</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+async function downloadPDF(){
+    const btn=document.getElementById('dlBtn');
+    btn.disabled=true; btn.textContent='⏳ 생성 중...';
+    const opt={margin:0,filename:'불합격_문자의_겨울이_지나고.pdf',image:{type:'jpeg',quality:.97},
+        html2canvas:{scale:2,useCORS:true,logging:false},
+        jsPDF:{unit:'mm',format:'a5',orientation:'portrait'},
+        pagebreak:{mode:['css','legacy'],after:'.page'}};
+    try{ await html2pdf().set(opt).from(document.getElementById('book')).save(); }
+    catch(e){ alert('PDF 생성 오류. Ctrl+P → PDF로 저장해 주세요.'); }
+    finally{
+        btn.disabled=false;
+        btn.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> PDF 다운로드';
+    }
+}
+</script>
+</body>
+</html>

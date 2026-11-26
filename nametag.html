@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이름표를 바꿔 단 날 — 취업성공 사례집</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #fffdf8;
+            --cover-bg: #fff8f0;
+            --ink: #3a3028;
+            --ink-sub: #6b5f52;
+            --ink-mute: #a89880;
+            --rust: #c4673e;
+            --sage: #7aaa80;
+            --peach: #f5b89a;
+            --blush: #f9ddd0;
+            --mint: #c2e0c8;
+            --lavender: #ddd0ee;
+            --butter: #f5e8a0;
+            --gold: #d4a84b;
+            --rule: #ecddd0;
+            --w: 148mm;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: #f0ebe3;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 16px 100px;
+            font-family: 'Gowun Batang', 'Noto Serif KR', serif;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .book { width: 100%; max-width: var(--w); }
+        .page {
+            background: var(--cream);
+            width: 100%;
+            margin-bottom: 6px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 20px rgba(100,80,50,.10), 0 6px 40px rgba(100,80,50,.06);
+        }
+
+        /* ── 표지 ── */
+        .cover {
+            background: var(--cover-bg);
+            min-height: 210mm;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .c-blob { position: absolute; border-radius: 50%; pointer-events: none; }
+        .cb1 { width:260px;height:220px;background:var(--peach);   filter:blur(80px);opacity:.55;top:-60px; left:-60px; }
+        .cb2 { width:200px;height:200px;background:var(--mint);    filter:blur(70px);opacity:.45;top:-20px; right:-50px; }
+        .cb3 { width:180px;height:180px;background:var(--lavender);filter:blur(65px);opacity:.50;bottom:30px;right:-30px; }
+        .cb4 { width:200px;height:150px;background:var(--butter);  filter:blur(70px);opacity:.45;bottom:10px;left:20%; }
+        .cb5 { width:150px;height:150px;background:var(--blush);   filter:blur(60px);opacity:.50;bottom:-20px;left:-30px; }
+
+        .cover-inner {
+            position: relative; z-index: 2;
+            width: 100%; min-height: 210mm;
+            display: flex; flex-direction: column; align-items: center;
+            padding: 18mm 16mm 14mm;
+        }
+        .cover-series {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 7.5pt; letter-spacing: 4px;
+            color: var(--rust); opacity: .80; margin-bottom: 14mm;
+        }
+        .cover-title-box {
+            background: rgba(255,255,255,.65);
+            border: 1px solid rgba(255,255,255,.88);
+            border-radius: 4px;
+            padding: 8mm 10mm 7mm;
+            text-align: center; width: 100%; margin-bottom: 5mm;
+            box-shadow: 0 2px 16px rgba(180,120,80,.08);
+        }
+        .cover-title-main {
+            font-family: 'Gowun Batang', serif;
+            font-size: 22pt; font-weight: 700;
+            color: var(--ink); line-height: 1.45; margin-bottom: 3mm;
+        }
+        .cover-rule {
+            width: 50px; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--rust), transparent);
+            opacity: .45; margin: 0 auto 3mm;
+        }
+        .cover-title-sub {
+            font-family: 'Gowun Batang', serif;
+            font-size: 16pt; font-weight: 400;
+            color: var(--rust); line-height: 1.55;
+        }
+        .cover-desc {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 9.5pt; color: var(--ink-sub);
+            font-weight: 300; letter-spacing: .5px;
+        }
+        .cover-meta { margin-top: auto; text-align: center; }
+        .cover-inst {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 8pt; color: var(--ink-mute);
+            letter-spacing: 2px; margin-bottom: 2mm;
+        }
+        .cover-year {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 7.5pt; color: var(--ink-mute); opacity: .65;
+        }
+
+        /* ── 속표지 ── */
+        .halftitle {
+            padding: 12mm 18mm; display: flex;
+            flex-direction: column; align-items: center; justify-content: center;
+            min-height: 40mm; border-bottom: 1px solid var(--rule);
+        }
+        .halftitle p {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 10pt; color: var(--ink-sub);
+            text-align: center; line-height: 1.90; font-weight: 300;
+        }
+
+        /* ── 목차 ── */
+        .toc { padding: 12mm 16mm 10mm; }
+        .sec-label {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 7.5pt; letter-spacing: 4px; color: var(--rust); display: block; margin-bottom: 3mm;
+        }
+        .sec-title {
+            font-family: 'Gowun Batang', serif;
+            font-size: 17pt; color: var(--ink); font-weight: 700; margin-bottom: 7mm;
+        }
+        .toc-rule { height:1px; background:linear-gradient(90deg,var(--rust),transparent); margin-bottom:7mm; opacity:.35; }
+        .toc-row { display:flex; align-items:baseline; gap:6px; margin-bottom:5mm; }
+        .toc-n { font-family:'Noto Sans KR',sans-serif; font-size:7pt; color:var(--rust); min-width:22px; font-weight:500; }
+        .toc-t { font-family:'Gowun Batang',serif; font-size:10pt; color:var(--ink-sub); flex:1; line-height:1.6; }
+        .toc-t a { text-decoration:none; color:inherit; }
+        .toc-t a:hover { color:var(--rust); }
+
+        /* ── 챕터 ── */
+        .chap { background: #ffffff; }
+        .chap-hd {
+            padding: 7mm 14mm 5mm;
+            background: #ffffff;
+        }
+        .chap-hd::before { display: none !important; }
+        .hd-blob { display: none !important; }
+        .chap-n {
+            font-family:'Noto Sans KR',sans-serif; font-size:7pt;
+            letter-spacing:3px; color:var(--rust); font-weight:500;
+            display:block; margin-bottom:2.5mm;
+        }
+        .chap-title {
+            font-family:'Gowun Batang',serif; font-size:14pt;
+            font-weight:700; color:#1a1a1a; line-height:1.42; margin-bottom:1.5mm;
+        }
+        .chap-sub {
+            font-family:'Noto Serif KR',serif; font-size:9pt;
+            color:#888; font-weight:300;
+        }
+        .chap-hd-rule {
+            height:1px;
+            background:linear-gradient(90deg,var(--rust),transparent);
+            opacity:.25; margin:0 14mm;
+        }
+        .chap-body { padding:5mm 14mm 7mm; background:#ffffff; }
+        .chap-body p {
+            font-family:'Gowun Batang','Noto Serif KR',serif;
+            font-size:9.5pt; line-height:1.85; color:#1a1a1a;
+            text-align:justify; word-break:keep-all;
+        }
+        .chap-body p + p { text-indent:1em; }
+        .quote {
+            margin:3.5mm 0; padding:3mm 7mm 3mm 9mm;
+            border-left:2.5px solid var(--rust);
+            background:#fff8f4;
+            border-radius:0 3px 3px 0;
+        }
+        .quote p { font-style:italic; color:#1a1a1a!important; text-indent:0!important; font-size:9.5pt!important; line-height:1.85!important; }
+        .policy {
+            margin:5mm 0; padding:4mm 7mm;
+            background:#f4faf5;
+            border:1px solid rgba(122,170,128,.35); border-radius:3px;
+        }
+        .policy-ttl {
+            font-family:'Noto Sans KR',sans-serif; font-size:8pt;
+            font-weight:700; color:#1a1a1a; margin-bottom:1.5mm;
+        }
+        .policy p { font-size:9.5pt!important; line-height:1.85!important; text-indent:0!important; color:#1a1a1a!important; }
+        .kw { color:#1a1a1a; font-weight:700; }
+        .chap-end { text-align:center; padding:2.5mm 0 2mm; font-size:11pt; letter-spacing:6px; color:var(--rule); }
+        .pg-foot {
+            padding:2mm 14mm 3mm; display:flex; justify-content:space-between;
+            border-top:1px solid var(--rule);
+        }
+        .pg-num { font-family:'Noto Sans KR',sans-serif; font-size:7.5pt; color:var(--ink-mute); }
+        .pg-rt  { font-family:'Noto Sans KR',sans-serif; font-size:7pt; color:var(--rule); letter-spacing:1px; }
+        .epilogue-hd::before { background:#f8fcf8!important; }
+
+        /* ── 뒷표지 ── */
+        .back-cover {
+            background:var(--cover-bg); min-height:210mm;
+            display:flex; flex-direction:column; align-items:center;
+            position:relative; overflow:hidden;
+        }
+        .back-inner {
+            position:relative; z-index:2; width:100%; min-height:210mm;
+            display:flex; flex-direction:column; align-items:center;
+            padding:16mm 16mm 14mm;
+        }
+        .back-quote { margin-top:auto; margin-bottom:6mm; text-align:center; }
+        .back-quote strong {
+            display:block; font-family:'Gowun Batang',serif;
+            font-size:15pt; color:var(--rust); margin-bottom:4mm; font-weight:700;
+        }
+        .back-quote p {
+            font-family:'Noto Serif KR',serif; font-size:10pt;
+            color:var(--ink-sub); line-height:1.90; font-weight:300;
+        }
+        .back-rule {
+            width:50px; height:1px;
+            background:linear-gradient(90deg,transparent,var(--rust),transparent);
+            opacity:.35; margin:5mm auto;
+        }
+        .back-inst {
+            font-family:'Noto Sans KR',sans-serif; font-size:8pt;
+            color:var(--ink-mute); letter-spacing:2px; text-align:center; margin-top:auto;
+        }
+
+        /* ── 버튼 ── */
+        .dl-btn {
+            position:fixed; bottom:28px; right:28px;
+            background:var(--rust); color:#fff; border:none;
+            padding:12px 22px; border-radius:100px;
+            font-family:'Noto Sans KR',sans-serif; font-size:10pt; font-weight:500;
+            cursor:pointer; box-shadow:0 4px 20px rgba(196,103,62,.35);
+            z-index:999; display:flex; align-items:center; gap:8px;
+            transition:transform .2s, box-shadow .2s;
+        }
+        .dl-btn:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(196,103,62,.45); }
+        .dl-btn:disabled { opacity:.6; cursor:not-allowed; transform:none; }
+
+        @media print {
+            @page { size:A5 portrait; margin:0; }
+            body { background:white; padding:0; display:block; }
+            .book { max-width:100%; }
+            .page { page-break-after:always; box-shadow:none; margin-bottom:0; }
+            .dl-btn { display:none!important; }
+        }
+        @media (max-width:600px) { body { padding:10px 4px 80px; } :root { --w:100%; } }
+    </style>
+</head>
+<body>
+<div class="book" id="book">
+
+<!-- 표지 -->
+<div class="page cover">
+    <div class="c-blob cb1"></div><div class="c-blob cb2"></div>
+    <div class="c-blob cb3"></div><div class="c-blob cb4"></div><div class="c-blob cb5"></div>
+    <div class="cover-inner">
+        <div class="cover-series">취업성공 사례집 · 2026</div>
+        <div class="cover-title-box">
+            <div class="cover-title-main">이름표를<br>바꿔 단 날</div>
+            <div class="cover-rule"></div>
+            <div class="cover-title-sub">어느 50대 구직자의<br>재도전 일지</div>
+        </div>
+        <div class="cover-desc">어느 직업상담사의 동행 기록</div>
+        <div class="cover-meta">
+            <div class="cover-inst">목포고용센터 · 취업지원총괄팀</div>
+            <div class="cover-year">2026</div>
+        </div>
+    </div>
+</div>
+
+<!-- 속표지 -->
+<div class="page halftitle">
+    <p>익숙한 경력 앞에서 길이 좁아졌던 사람이,<br>새로운 직무로 다시 걸어 나간 기록</p>
+</div>
+
+<!-- 목차 -->
+<div class="page toc">
+    <span class="sec-label">Contents</span>
+    <h2 class="sec-title">차례</h2>
+    <div class="toc-rule"></div>
+    <div class="toc-row"><span class="toc-n">1장</span><span class="toc-t"><a href="#case04-ch1">집 근처에, 있을까요</a></span></div>
+    <div class="toc-row"><span class="toc-n">2장</span><span class="toc-t"><a href="#case04-ch2">익숙한 경력, 좁아진 선택지</a></span></div>
+    <div class="toc-row"><span class="toc-n">3장</span><span class="toc-t"><a href="#case04-ch3">정보가 아니라 길이 필요했다</a></span></div>
+    <div class="toc-row"><span class="toc-n">4장</span><span class="toc-t"><a href="#case04-ch4">사흘간의 집단상담</a></span></div>
+    <div class="toc-row"><span class="toc-n">5장</span><span class="toc-t"><a href="#case04-ch5">일상부터 먼저</a></span></div>
+    <div class="toc-row"><span class="toc-n">6장</span><span class="toc-t"><a href="#case04-ch6">면접이 알려 준 것</a></span></div>
+    <div class="toc-row"><span class="toc-n">7장</span><span class="toc-t"><a href="#case04-ch7">이름표를 바꿔 단 날</a></span></div>
+    <div class="toc-row"><span class="toc-n" style="color:var(--sage)">에필</span><span class="toc-t" style="color:var(--sage)"><a href="#case04-epilogue" style="color:inherit">꿈은 진행 중이다</a></span></div>
+    <div class="pg-foot" style="margin-top:8mm;"><span class="pg-num">목차</span><span class="pg-rt">이름표를 바꿔 단 날</span></div>
+</div>
+
+<!-- 1장 -->
+<div class="page chap" id="case04-ch1">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--blush)"></div>
+        <span class="chap-n">Chapter 01</span>
+        <h2 class="chap-title">집 근처에, 있을까요</h2>
+        <span class="chap-sub">첫 만남, 3월 3일</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>3월 3일, 쉰한 살의 은숙 씨가 센터의 문을 두드렸다.</p>
+        <p>은숙 씨는 요양원에서 간호조무사로 일하며 현장 경험을 쌓아 온 사람이었다. 퇴사한 뒤 다시 일자리를 찾으려고 우리 센터를 찾았다. 그동안 쌓은 경력을 살려, 가까운 곳에서 다시 일하고 싶다는 마음이 컸다.</p>
+        <!-- [재구성] -->
+        <p>나는 먼저 어떤 일을 해 왔는지, 어떤 곳에서 일하고 싶은지를 물었다.</p>
+        <div class="quote"><p>“집 근처에 간호조무사로 일할 만한 곳이 있을까요?”</p></div>
+        <p>소박한 바람이었다. 익숙한 일을 이어 가면서도 출퇴근 부담 없이 안정적으로 일할 수 있는 직장. 그날 은숙 씨가 내게 건넨 질문은 그것이 전부였다.</p>
+        <p>하지만 그 질문에 곧바로 답해 줄 수 있는 구인정보는 많지 않았다.</p>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">1</span><span class="pg-rt">이름표를 바꿔 단 날</span></div>
+</div>
+<!-- 2장 -->
+<div class="page chap" id="case04-ch2">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--butter)"></div>
+        <span class="chap-n">Chapter 02</span>
+        <h2 class="chap-title">익숙한 경력, 좁아진 선택지</h2>
+        <span class="chap-sub">상황의 전모</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>구직 활동을 시작하자 현실의 벽이 보였다. 거주지 인근 읍에는 간호조무사 구인정보가 많지 않았다. 목포 같은 다른 지역으로 눈을 돌리기에도 어려움이 있었다. 은숙 씨는 운전이 어려워 출퇴근할 수 있는 거리가 제한적이었기 때문이다.</p>
+        <p>경력과 자격증이 있어도, 일할 수 있는 지역에 맞는 일자리가 없으면 취업으로 이어지기는 쉽지 않다. 지역 안의 부족한 채용정보와 이동의 제약 앞에서 은숙 씨의 선택지는 좁아질 수밖에 없었다.</p>
+        <p>은숙 씨에게는 새로운 꿈도 있었다. 직업상담사로 일하며 사람들의 취업과 진로를 돕는 일이다. 직업상담사, 취업알선원, 사회복지사 같은 직종에 지원하고 면접에도 나섰다. 그러나 취업의 문턱은 생각보다 높았다. 관심 있는 직무에 지원할 기회는 있었지만, 해당 분야의 실무경험이 부족하다는 점이 걸림돌이 되었다.</p>
+        <div class="policy">
+            <div class="policy-ttl">📋 은숙 씨의 시작점</div>
+            <p>연령 · 만 51세 / 여성<br>
+            유형 · 취업알선<br>
+            기간 · 2026. 3. 3. ~ 7. 6.<br>
+            경력 · 요양원 간호조무사, 요양보호사로 일한 현장 경험<br>
+            희망 직종 · 간호조무사 (집 근처 일자리)<br>
+            장애요인 · 지역 내 구인정보 부족, 운전이 어려워 제한된 출퇴근 거리, 새 직무에 필요한 실무경험 부족</p>
+        </div>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">2</span><span class="pg-rt">이름표를 바꿔 단 날</span></div>
+</div>
+<!-- 3장 -->
+<div class="page chap" id="case04-ch3">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--mint)"></div>
+        <span class="chap-n">Chapter 03</span>
+        <h2 class="chap-title">정보가 아니라 길이 필요했다</h2>
+        <span class="chap-sub">상담 방향 설정</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>나는 현재의 구인정보를 안내하는 것만으로는 은숙 씨의 취업 고민을 풀 수 없다고 판단했다.</p>
+        <p>필요한 것은 두 갈래였다. 기존 경력을 활용할 수 있는 일자리를 찾는 일, 그리고 지금까지의 경험과 자격을 바탕으로 다른 직무까지 가능성을 넓혀 보는 일.</p>
+        <p>어쩌면 은숙 씨에게 필요한 것은 일자리 정보만이 아니라, 자신에게 맞는 새로운 길을 발견하는 일이었을지도 모른다. 상담은 그렇게 기존 경력에 머무르지 않고 새로운 가능성을 탐색하는 방향으로 조금씩 움직이기 시작했다.</p>
+        <p>직업상담에서는 이를 경력 전환의 관점이라 부른다. 과거의 직종을 반드시 이어 가야 한다고 보지 않고, 쌓아 온 경험이 어떤 직무에서 쓰일 수 있는지를 함께 묻는 것이다.</p>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">3</span><span class="pg-rt">이름표를 바꿔 단 날</span></div>
+</div>
+<!-- 4장 -->
+<div class="page chap" id="case04-ch4">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--lavender)"></div>
+        <span class="chap-n">Chapter 04</span>
+        <h2 class="chap-title">사흘간의 집단상담</h2>
+        <span class="chap-sub">직업 탐색: 집단상담 심화과정 3기 (3월 17일~19일)</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>은숙 씨에게는 자신의 가능성을 다시 살펴볼 시간이 필요했다. 간호조무사와 요양보호사로 일하며 쌓은 경험은 분명한 자산이었다. 그러나 직업상담사나 취업알선원처럼 새로운 분야에 도전할 때, 그 경험을 어떻게 쓸 수 있을지 정리하기는 쉽지 않았다.</p>
+        <p>그래서 3월 17일부터 19일까지 열린 집단상담 심화과정 3기에 참여하도록 권했다. 새로운 직업을 알아보는 데 그치지 않고, 자신이 어떤 일을 잘할 수 있는 사람인지 스스로 발견하도록 돕기 위해서였다.</p>
+        <p>첫째 날, 은숙 씨는 다른 참여자들과 지금까지 해 온 일과 앞으로 하고 싶은 일, 그 직업을 선택한 이유를 나누었다. 서로 다른 경력과 고민을 가진 사람들의 이야기를 들으며, 취업의 방향이 반드시 과거의 직종에만 머물러야 하는 것은 아니라는 점을 함께 살폈다.</p>
+        <p>둘째 날에는 직업선호도검사와 역량검사, 직업가치관검사로 자신의 흥미와 역량, 직업 선택에서 중요하게 여기는 가치를 살폈다. 나는 검사 결과를 확인하는 데서 멈추지 않고 진로 선택과 연결하는 데 힘을 쏟았다. 어떤 부분은 강점으로 쓰고, 어떤 부분은 학습과 경험으로 채울지를 구체적으로 생각해 보게 했다.</p>
+        <p>셋째 날에는 관심 직종의 실제 채용공고를 열어 직무 내용과 자격요건, 근무조건을 확인했다. 막연히 하고 싶던 일이 구체적인 채용정보와 만나는 시간이었다. 기존 경력과 교육 이력, 자격증, 강점을 새 직무에 필요한 역량의 말로 바꾸어 표현하는 활동도 했다. 이력서와 자기소개서를 쓰고 면접을 준비할 때 쓸 재료였다.</p>
+        <div class="policy">
+            <div class="policy-ttl">🗓️ 집단상담 3일의 흐름</div>
+            <p>1일차 · 지금까지 한 일, 하고 싶은 일, 선택 이유 나누기 / 경력단절여성 재취업 사례 탐색<br>
+            2일차 · 직업선호도검사, 역량검사, 직업가치관검사 / 강점과 보완점 정리<br>
+            3일차 · 관심 직종의 실제 채용공고 분석 / 경험을 새 직무의 역량으로 표현하기</p>
+        </div>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">4</span><span class="pg-rt">이름표를 바꿔 단 날</span></div>
+</div>
+<!-- 5장 -->
+<div class="page chap" id="case04-ch5">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--peach)"></div>
+        <span class="chap-n">Chapter 05</span>
+        <h2 class="chap-title">일상부터 먼저</h2>
+        <span class="chap-sub">심리 안정화와 국민취업지원제도 연계 (3월 31일~4월 17일)</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>진로 탐색만으로는 채워지지 않는 부분이 있었다. 은숙 씨는 퇴사한 뒤에도 과거의 생각에서 벗어나지 못하고 우울감과 불안감을 호소하고 있었다. 새로운 직업을 찾는 일에 앞서, 지금의 감정을 이해하고 일상에 집중하며 앞으로의 진로를 차분히 준비할 수 있도록 돕는 과정이 필요했다.</p>
+        <p>센터의 경력단절예방사업과 연계해 3월 31일, 4월 6일, 4월 10일, 모두 3회기의 심리·고충 상담을 지원했다. 상담에서는 불안의 원인을 살피고, 과거의 경험에 머무르기보다 현재 생활에 집중하면서 새로운 직업을 탐색하도록 도왔다.</p>
+        <p>이어서 4월 17일부터는 국민취업지원제도 Ⅰ유형에 참여하도록 연계했다. 심리적 지원과 취업지원 서비스를 함께 쓰면서 구직 활동을 이어 갈 기반을 마련한 것이다.</p>
+        <div class="policy">
+            <div class="policy-ttl">🏛️ 연계된 지원</div>
+            <p>경력단절예방사업 · 심리·고충 상담 3회기 (3. 31. / 4. 6. / 4. 10.)<br>
+            국민취업지원제도 Ⅰ유형 · 4. 17.부터 참여</p>
+        </div>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">5</span><span class="pg-rt">이름표를 바꿔 단 날</span></div>
+</div>
+<!-- 6장 -->
+<div class="page chap" id="case04-ch6">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--blush)"></div>
+        <span class="chap-n">Chapter 06</span>
+        <h2 class="chap-title">면접이 알려 준 것</h2>
+        <span class="chap-sub">구직 기회와 직업훈련 연계 (5월~6월)</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>실제 취업의 기회를 경험하게 하는 일도 이어졌다. 센터 자체 행사인 2026년 구인구직 만남의 날 ‘취업, 날개를 달다!’(5월 21일) 참여를 안내하고 현장 면접의 기회를 마련했다. 요양원의 사회복지사 채용 면접도 안내했다.</p>
+        <p>그 면접에서 은숙 씨는 해당 직무가 약 40곳의 가정을 직접 운전해서 방문하는 재가방문 사회복지사 업무라는 사실을 알게 되었다. 운전에 자신이 없던 은숙 씨는 이 업무 방식이 자신의 여건과 맞지 않는다고 판단했다.</p>
+        <!-- [재구성] -->
+        <div class="quote"><p>“마흔 곳이나 되는 집을 제가 직접 운전해서 다니는 건, 자신이 없어요.”</p></div>
+        <p>채용 결과만 보면 아쉬운 면접이었을지 모른다. 하지만 은숙 씨는 이 경험으로 실제 업무 내용과 근무 조건을 따져 보며 자신에게 맞는 직무를 구체화해 갔다.</p>
+        <p>그 뒤 은숙 씨는 지역 청년 지원사업 담당자 채용공고를 보게 되었다. 직업상담사 자격이 필수요건으로 제시되어 있었다. 직업상담사로 일하고 싶다는 관심이 이때 실제 취업 준비로 이어졌다. 희망 직무에 필요한 자격요건을 확인하고, 그에 맞춰 준비 방향을 구체화한 것이다.</p>
+        <p>직무역량을 보완할 기회도 함께 마련했다. 6월 8일 국민내일배움카드를 발급해 직업훈련에 참여할 기반을 만들었고, 6월 15일부터는 새일센터의 스마트 경리실무자양성 과정에, 6월 18일부터는 직업상담사 2급 필기·실기 과정에 참여했다.</p>
+        <div class="policy">
+            <div class="policy-ttl">📚 직무역량 보완</div>
+            <p>6. 8. · 국민내일배움카드 발급<br>
+            6. 15. · 스마트 경리실무자양성 과정 (새일센터)<br>
+            6. 18. · 직업상담사 2급 필기·실기 과정 수강</p>
+        </div>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">6</span><span class="pg-rt">이름표를 바꿔 단 날</span></div>
+</div>
+<!-- 7장 -->
+<div class="page chap" id="case04-ch7">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--butter)"></div>
+        <span class="chap-n">Chapter 07</span>
+        <h2 class="chap-title">이름표를 바꿔 단 날</h2>
+        <span class="chap-sub">취업 과정과 자립 확인 (7월 6일)</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>7월 6일, 은숙 씨는 재가노인복지센터의 사회복지사로 취업했다. 3월 3일 첫 상담에서 약 넉 달 만이었다.</p>
+        <p>처음 센터에 왔을 때 은숙 씨가 찾던 일자리는 집 근처의 간호조무사였다. 지역 안의 구인정보는 부족했고 다른 지역으로 다니기도 어려워 선택의 폭이 좁았다. 그러나 상담을 거치며 기존 경력에만 머무르지 않고, 새로운 직무를 탐색하는 방향으로 준비를 이어 갔다.</p>
+        <p>사회복지사로의 취업은 간호조무사와 요양보호사로 일하며 쌓은 경험을 바탕으로 새로운 직무에 도전한 결과였다. 이 과정에서 서비스들은 각자 다른 역할을 했다. 집단상담은 진로를 탐색하고 방향을 구체화하게 했고, 심리·고충 상담은 일상을 되찾게 했으며, 구인구직 만남의 날과 면접은 실제 기회를 보여 주었고, 직업훈련과 국민취업지원제도는 준비를 뒷받침했다.</p>
+        <div class="policy">
+            <div class="policy-ttl">🔗 서비스가 이어진 순서</div>
+            <p>집단상담 3일 (3. 17.~19.) → 심리·고충 상담 3회기 (3. 31.~4. 10.)<br>
+            → 국민취업지원제도 Ⅰ유형 (4. 17.) → 구인구직 만남의 날·면접 (5. 21.)<br>
+            → 국민내일배움카드와 직업훈련 (6. 8.~) → 취업 (7. 6.)<br>
+            취업 결과 · 간호조무사 희망 → 재가노인복지센터 사회복지사 취업</p>
+        </div>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">7</span><span class="pg-rt">이름표를 바꿔 단 날</span></div>
+</div>
+
+<!-- 에필로그 -->
+<div class="page chap" id="case04-epilogue">
+    <div class="chap-hd epilogue-hd"><div class="hd-blob" style="background:var(--mint)"></div>
+        <span class="chap-n" style="color:var(--sage)">Epilogue</span>
+        <h2 class="chap-title">꿈은 진행 중이다</h2>
+        <span class="chap-sub">상담사로서 다시 새긴 것</span>
+    </div>
+    <div class="chap-hd-rule" style="background:linear-gradient(90deg,var(--sage),transparent)"></div>
+    <div class="chap-body">
+        <p>은숙 씨의 사례를 정리하며, 처음 받은 질문을 다시 떠올렸다. 집 근처에 일할 만한 곳이 있을까요.</p>
+        <p>그 질문에 구인정보 몇 건으로 답했다면 상담은 거기서 끝났을 것이다. 구직자가 묻는 말과 구직자에게 필요한 일은 다를 때가 있다. 이번 상담에서 내가 한 일은 일자리를 찾아 주는 데서 한 걸음 물러나, 은숙 씨가 자신에게 맞는 길을 발견하도록 서비스를 상황에 맞게 이어 붙이는 것이었다.</p>
+        <p>다만 이 이야기는 7월 6일의 취업에서 멈춰 있다. 새 직장에서 어떻게 적응하고 있는지는 앞으로 확인해야 할 몫이다. 은숙 씨가 처음에 말한 꿈, 직업상담사의 자격 과정도 지금 진행 중이다.</p>
+        <p>한 사람의 취업은 한 번의 상담으로 만들어지지 않는다. 지역의 고용지원기관이 구직자의 상황에 맞춰 지원을 어떻게 이어 붙일 수 있는지, 이 사례는 그 한 가지 방식을 보여 준다.</p>
+    </div>
+    <div class="chap-end" style="color:var(--sage);font-size:13pt;">— ❀ —</div>
+    <div class="pg-foot"><span class="pg-num">에필로그</span><span class="pg-rt">이름표를 바꿔 단 날</span></div>
+</div>
+
+<!-- 뒷표지 -->
+<div class="page back-cover">
+    <div class="c-blob cb2"></div><div class="c-blob cb4"></div>
+    <div class="c-blob" style="width:180px;height:180px;background:var(--blush);filter:blur(70px);opacity:.50;bottom:-20px;left:-30px;position:absolute;"></div>
+    <div class="back-inner">
+        <div style="margin-top:auto;text-align:center;">
+            <svg width="90" height="62" viewBox="0 0 90 62" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:7mm;opacity:.82;">
+                <ellipse cx="26" cy="50" rx="14" ry="7" fill="rgba(110,175,120,.34)" transform="rotate(-26 26 50)"/>
+                <ellipse cx="64" cy="48" rx="12" ry="6" fill="rgba(110,175,120,.27)" transform="rotate(20 64 48)"/>
+                <path d="M45 53 Q41 38 35 22" stroke="rgba(90,155,100,.60)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+                <path d="M45 53 Q48 36 56 19" stroke="rgba(90,155,100,.50)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+                <path d="M45 53 Q45 36 45 17" stroke="rgba(90,155,100,.55)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+                <ellipse cx="37" cy="18" rx="7" ry="4" fill="rgba(249,200,175,.72)" transform="rotate(-40 37 18)"/>
+                <ellipse cx="47" cy="17" rx="7" ry="4" fill="rgba(249,200,175,.66)" transform="rotate(40 47 17)"/>
+                <ellipse cx="36" cy="27" rx="7" ry="4" fill="rgba(249,200,175,.62)" transform="rotate(-140 36 27)"/>
+                <ellipse cx="47" cy="27" rx="7" ry="4" fill="rgba(249,200,175,.66)" transform="rotate(140 47 27)"/>
+                <circle cx="42" cy="22" r="5.5" fill="rgba(245,215,105,.88)"/>
+                <circle cx="42" cy="22" r="2.8" fill="rgba(238,205,55,1)"/>
+                <ellipse cx="56" cy="15" rx="6" ry="3.5" fill="rgba(210,188,232,.68)" transform="rotate(-40 56 15)"/>
+                <ellipse cx="65" cy="15" rx="6" ry="3.5" fill="rgba(210,188,232,.62)" transform="rotate(40 65 15)"/>
+                <ellipse cx="55" cy="23" rx="6" ry="3.5" fill="rgba(210,188,232,.58)" transform="rotate(-140 55 23)"/>
+                <ellipse cx="66" cy="23" rx="6" ry="3.5" fill="rgba(210,188,232,.62)" transform="rotate(140 66 23)"/>
+                <circle cx="60" cy="19" r="5" fill="rgba(245,215,105,.80)"/>
+                <circle cx="60" cy="19" r="2.3" fill="rgba(238,205,55,1)"/>
+                <ellipse cx="14" cy="38" rx="4" ry="2" fill="rgba(249,200,175,.38)" transform="rotate(-26 14 38)"/>
+                <ellipse cx="78" cy="34" rx="3.5" ry="1.8" fill="rgba(210,188,232,.34)" transform="rotate(16 78 34)"/>
+            </svg>
+            <div class="back-quote">
+                <strong>"꿈은 아직 진행 중이다."</strong>
+                <p>간호조무사에서 사회복지사로,<br>경력의 이름표를 바꿔 단 구직자의 기록</p>
+            </div>
+            <div class="back-rule"></div>
+        </div>
+        <div class="back-inst">목포고용센터 취업지원총괄팀<br>취업성공 사례집 · 2026</div>
+    </div>
+</div>
+
+</div><!-- /book -->
+
+<button class="dl-btn" id="dlBtn" onclick="downloadPDF()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    PDF 다운로드
+</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+async function downloadPDF(){
+    const btn=document.getElementById('dlBtn');
+    btn.disabled=true; btn.textContent='⏳ 생성 중...';
+    const opt={margin:0,filename:'이름표를_바꿔_단_날.pdf',image:{type:'jpeg',quality:.97},
+        html2canvas:{scale:2,useCORS:true,logging:false},
+        jsPDF:{unit:'mm',format:'a5',orientation:'portrait'},
+        pagebreak:{mode:['css','legacy'],after:'.page'}};
+    try{ await html2pdf().set(opt).from(document.getElementById('book')).save(); }
+    catch(e){ alert('PDF 생성 오류. Ctrl+P → PDF로 저장해 주세요.'); }
+    finally{
+        btn.disabled=false;
+        btn.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> PDF 다운로드';
+    }
+}
+</script>
+</body>
+</html>

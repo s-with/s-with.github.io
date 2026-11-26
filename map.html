@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>돌아온 길이 지도가 되어 — 취업성공 사례집</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #fffdf8;
+            --cover-bg: #fff8f0;
+            --ink: #3a3028;
+            --ink-sub: #6b5f52;
+            --ink-mute: #a89880;
+            --rust: #c4673e;
+            --sage: #7aaa80;
+            --peach: #f5b89a;
+            --blush: #f9ddd0;
+            --mint: #c2e0c8;
+            --lavender: #ddd0ee;
+            --butter: #f5e8a0;
+            --gold: #d4a84b;
+            --rule: #ecddd0;
+            --w: 148mm;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: #f0ebe3;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 16px 100px;
+            font-family: 'Gowun Batang', 'Noto Serif KR', serif;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .book { width: 100%; max-width: var(--w); }
+        .page {
+            background: var(--cream);
+            width: 100%;
+            margin-bottom: 6px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 20px rgba(100,80,50,.10), 0 6px 40px rgba(100,80,50,.06);
+        }
+
+        /* ── 표지 ── */
+        .cover {
+            background: var(--cover-bg);
+            min-height: 210mm;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .c-blob { position: absolute; border-radius: 50%; pointer-events: none; }
+        .cb1 { width:260px;height:220px;background:var(--peach);   filter:blur(80px);opacity:.55;top:-60px; left:-60px; }
+        .cb2 { width:200px;height:200px;background:var(--mint);    filter:blur(70px);opacity:.45;top:-20px; right:-50px; }
+        .cb3 { width:180px;height:180px;background:var(--lavender);filter:blur(65px);opacity:.50;bottom:30px;right:-30px; }
+        .cb4 { width:200px;height:150px;background:var(--butter);  filter:blur(70px);opacity:.45;bottom:10px;left:20%; }
+        .cb5 { width:150px;height:150px;background:var(--blush);   filter:blur(60px);opacity:.50;bottom:-20px;left:-30px; }
+
+        .cover-inner {
+            position: relative; z-index: 2;
+            width: 100%; min-height: 210mm;
+            display: flex; flex-direction: column; align-items: center;
+            padding: 18mm 16mm 14mm;
+        }
+        .cover-series {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 7.5pt; letter-spacing: 4px;
+            color: var(--rust); opacity: .80; margin-bottom: 14mm;
+        }
+        .cover-title-box {
+            background: rgba(255,255,255,.65);
+            border: 1px solid rgba(255,255,255,.88);
+            border-radius: 4px;
+            padding: 8mm 10mm 7mm;
+            text-align: center; width: 100%; margin-bottom: 5mm;
+            box-shadow: 0 2px 16px rgba(180,120,80,.08);
+        }
+        .cover-title-main {
+            font-family: 'Gowun Batang', serif;
+            font-size: 22pt; font-weight: 700;
+            color: var(--ink); line-height: 1.45; margin-bottom: 3mm;
+        }
+        .cover-rule {
+            width: 50px; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--rust), transparent);
+            opacity: .45; margin: 0 auto 3mm;
+        }
+        .cover-title-sub {
+            font-family: 'Gowun Batang', serif;
+            font-size: 16pt; font-weight: 400;
+            color: var(--rust); line-height: 1.55;
+        }
+        .cover-desc {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 9.5pt; color: var(--ink-sub);
+            font-weight: 300; letter-spacing: .5px;
+        }
+        .cover-meta { margin-top: auto; text-align: center; }
+        .cover-inst {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 8pt; color: var(--ink-mute);
+            letter-spacing: 2px; margin-bottom: 2mm;
+        }
+        .cover-year {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 7.5pt; color: var(--ink-mute); opacity: .65;
+        }
+
+        /* ── 속표지 ── */
+        .halftitle {
+            padding: 12mm 18mm; display: flex;
+            flex-direction: column; align-items: center; justify-content: center;
+            min-height: 40mm; border-bottom: 1px solid var(--rule);
+        }
+        .halftitle p {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 10pt; color: var(--ink-sub);
+            text-align: center; line-height: 1.90; font-weight: 300;
+        }
+
+        /* ── 목차 ── */
+        .toc { padding: 12mm 16mm 10mm; }
+        .sec-label {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 7.5pt; letter-spacing: 4px; color: var(--rust); display: block; margin-bottom: 3mm;
+        }
+        .sec-title {
+            font-family: 'Gowun Batang', serif;
+            font-size: 17pt; color: var(--ink); font-weight: 700; margin-bottom: 7mm;
+        }
+        .toc-rule { height:1px; background:linear-gradient(90deg,var(--rust),transparent); margin-bottom:7mm; opacity:.35; }
+        .toc-row { display:flex; align-items:baseline; gap:6px; margin-bottom:5mm; }
+        .toc-n { font-family:'Noto Sans KR',sans-serif; font-size:7pt; color:var(--rust); min-width:22px; font-weight:500; }
+        .toc-t { font-family:'Gowun Batang',serif; font-size:10pt; color:var(--ink-sub); flex:1; line-height:1.6; }
+        .toc-t a { text-decoration:none; color:inherit; }
+        .toc-t a:hover { color:var(--rust); }
+
+        /* ── 챕터 ── */
+        .chap { background: #ffffff; }
+        .chap-hd {
+            padding: 7mm 14mm 5mm;
+            background: #ffffff;
+        }
+        .chap-hd::before { display: none !important; }
+        .hd-blob { display: none !important; }
+        .chap-n {
+            font-family:'Noto Sans KR',sans-serif; font-size:7pt;
+            letter-spacing:3px; color:var(--rust); font-weight:500;
+            display:block; margin-bottom:2.5mm;
+        }
+        .chap-title {
+            font-family:'Gowun Batang',serif; font-size:14pt;
+            font-weight:700; color:#1a1a1a; line-height:1.42; margin-bottom:1.5mm;
+        }
+        .chap-sub {
+            font-family:'Noto Serif KR',serif; font-size:9pt;
+            color:#888; font-weight:300;
+        }
+        .chap-hd-rule {
+            height:1px;
+            background:linear-gradient(90deg,var(--rust),transparent);
+            opacity:.25; margin:0 14mm;
+        }
+        .chap-body { padding:5mm 14mm 7mm; background:#ffffff; }
+        .chap-body p {
+            font-family:'Gowun Batang','Noto Serif KR',serif;
+            font-size:9.5pt; line-height:1.85; color:#1a1a1a;
+            text-align:justify; word-break:keep-all;
+        }
+        .chap-body p + p { text-indent:1em; }
+        .quote {
+            margin:3.5mm 0; padding:3mm 7mm 3mm 9mm;
+            border-left:2.5px solid var(--rust);
+            background:#fff8f4;
+            border-radius:0 3px 3px 0;
+        }
+        .quote p { font-style:italic; color:#1a1a1a!important; text-indent:0!important; font-size:9.5pt!important; line-height:1.85!important; }
+        .policy {
+            margin:5mm 0; padding:4mm 7mm;
+            background:#f4faf5;
+            border:1px solid rgba(122,170,128,.35); border-radius:3px;
+        }
+        .policy-ttl {
+            font-family:'Noto Sans KR',sans-serif; font-size:8pt;
+            font-weight:700; color:#1a1a1a; margin-bottom:1.5mm;
+        }
+        .policy p { font-size:9.5pt!important; line-height:1.85!important; text-indent:0!important; color:#1a1a1a!important; }
+        .kw { color:#1a1a1a; font-weight:700; }
+        .chap-end { text-align:center; padding:2.5mm 0 2mm; font-size:11pt; letter-spacing:6px; color:var(--rule); }
+        .pg-foot {
+            padding:2mm 14mm 3mm; display:flex; justify-content:space-between;
+            border-top:1px solid var(--rule);
+        }
+        .pg-num { font-family:'Noto Sans KR',sans-serif; font-size:7.5pt; color:var(--ink-mute); }
+        .pg-rt  { font-family:'Noto Sans KR',sans-serif; font-size:7pt; color:var(--rule); letter-spacing:1px; }
+        .epilogue-hd::before { background:#f8fcf8!important; }
+
+        /* ── 뒷표지 ── */
+        .back-cover {
+            background:var(--cover-bg); min-height:210mm;
+            display:flex; flex-direction:column; align-items:center;
+            position:relative; overflow:hidden;
+        }
+        .back-inner {
+            position:relative; z-index:2; width:100%; min-height:210mm;
+            display:flex; flex-direction:column; align-items:center;
+            padding:16mm 16mm 14mm;
+        }
+        .back-quote { margin-top:auto; margin-bottom:6mm; text-align:center; }
+        .back-quote strong {
+            display:block; font-family:'Gowun Batang',serif;
+            font-size:15pt; color:var(--rust); margin-bottom:4mm; font-weight:700;
+        }
+        .back-quote p {
+            font-family:'Noto Serif KR',serif; font-size:10pt;
+            color:var(--ink-sub); line-height:1.90; font-weight:300;
+        }
+        .back-rule {
+            width:50px; height:1px;
+            background:linear-gradient(90deg,transparent,var(--rust),transparent);
+            opacity:.35; margin:5mm auto;
+        }
+        .back-inst {
+            font-family:'Noto Sans KR',sans-serif; font-size:8pt;
+            color:var(--ink-mute); letter-spacing:2px; text-align:center; margin-top:auto;
+        }
+
+        /* ── 버튼 ── */
+        .dl-btn {
+            position:fixed; bottom:28px; right:28px;
+            background:var(--rust); color:#fff; border:none;
+            padding:12px 22px; border-radius:100px;
+            font-family:'Noto Sans KR',sans-serif; font-size:10pt; font-weight:500;
+            cursor:pointer; box-shadow:0 4px 20px rgba(196,103,62,.35);
+            z-index:999; display:flex; align-items:center; gap:8px;
+            transition:transform .2s, box-shadow .2s;
+        }
+        .dl-btn:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(196,103,62,.45); }
+        .dl-btn:disabled { opacity:.6; cursor:not-allowed; transform:none; }
+
+        @media print {
+            @page { size:A5 portrait; margin:0; }
+            body { background:white; padding:0; display:block; }
+            .book { max-width:100%; }
+            .page { page-break-after:always; box-shadow:none; margin-bottom:0; }
+            .dl-btn { display:none!important; }
+        }
+        @media (max-width:600px) { body { padding:10px 4px 80px; } :root { --w:100%; } }
+    </style>
+</head>
+<body>
+<div class="book" id="book">
+
+<!-- 표지 -->
+<div class="page cover">
+    <div class="c-blob cb1"></div><div class="c-blob cb2"></div>
+    <div class="c-blob cb3"></div><div class="c-blob cb4"></div><div class="c-blob cb5"></div>
+    <div class="cover-inner">
+        <div class="cover-series">취업성공 사례집 · 2026</div>
+        <div class="cover-title-box">
+            <div class="cover-title-main">돌아온 길이<br>지도가 되어</div>
+            <div class="cover-rule"></div>
+            <div class="cover-title-sub">어느 청년의<br>진로 일지</div>
+        </div>
+        <div class="cover-desc">어느 직업상담사의 동행 기록</div>
+        <div class="cover-meta">
+            <div class="cover-inst">목포고용센터 · 취업지원총괄팀</div>
+            <div class="cover-year">2026</div>
+        </div>
+    </div>
+</div>
+
+<!-- 속표지 -->
+<div class="page halftitle">
+    <p>실패라고 여긴 시간이 강점이 된,<br>한 청년의 취업 기록</p>
+</div>
+
+<!-- 목차 -->
+<div class="page toc">
+    <span class="sec-label">Contents</span>
+    <h2 class="sec-title">차례</h2>
+    <div class="toc-rule"></div>
+    <div class="toc-row"><span class="toc-n">1장</span><span class="toc-t"><a href="#case16-ch1">진로 칸이 비어 있던 청년</a></span></div>
+    <div class="toc-row"><span class="toc-n">2장</span><span class="toc-t"><a href="#case16-ch2">돌아온 길</a></span></div>
+    <div class="toc-row"><span class="toc-n">3장</span><span class="toc-t"><a href="#case16-ch3">실패가 아닌 탐색</a></span></div>
+    <div class="toc-row"><span class="toc-n">4장</span><span class="toc-t"><a href="#case16-ch4">모든 경험이 이어져 있었다</a></span></div>
+    <div class="toc-row"><span class="toc-n">5장</span><span class="toc-t"><a href="#case16-ch5">심폐소생술 자격증 하나</a></span></div>
+    <div class="toc-row"><span class="toc-n">6장</span><span class="toc-t"><a href="#case16-ch6">첫 번째 채용 기회</a></span></div>
+    <div class="toc-row"><span class="toc-n">7장</span><span class="toc-t"><a href="#case16-ch7">이력을 이야기로 바꾸다</a></span></div>
+    <div class="toc-row"><span class="toc-n" style="color:var(--sage)">에필</span><span class="toc-t" style="color:var(--sage)"><a href="#case16-epilogue" style="color:inherit">돌아온 길도 지도였다</a></span></div>
+    <div class="pg-foot" style="margin-top:8mm;"><span class="pg-num">목차</span><span class="pg-rt">돌아온 길이 지도가 되어</span></div>
+</div>
+
+<!-- 1장 -->
+<div class="page chap" id="case16-ch1">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--blush)"></div>
+        <span class="chap-n">Chapter 01</span>
+        <h2 class="chap-title">진로 칸이 비어 있던 청년</h2>
+        <span class="chap-sub">첫 만남, 6월 4일</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>6월 4일, 스물여섯 살의 도현 씨가 졸업생 특화 프로그램에 참여했다. 졸업을 앞둔 미취업 지역청년이었다.</p>
+        <p>희망 직종은 아직 정해지지 않은 상태였다. 진로가 비어 있었다.</p>
+        <p>진로가 비어 있는 청년 앞에서 상담사가 흔히 하는 실수는 빈칸을 서둘러 채워 주려는 것이다. 나는 먼저 그 빈칸이 어떻게 생겼는지부터 들었다.</p>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">1</span><span class="pg-rt">돌아온 길이 지도가 되어</span></div>
+</div>
+<!-- 2장 -->
+<div class="page chap" id="case16-ch2">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--butter)"></div>
+        <span class="chap-n">Chapter 02</span>
+        <h2 class="chap-title">돌아온 길</h2>
+        <span class="chap-sub">상황의 전모</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>도현 씨는 전문대학 산업디자인학과에 진학했지만 진로에 대한 고민으로 학업을 중단했다. 이후 이벤트 기획사에서 8개월 동안 일했다.</p>
+        <p>그곳에서 도현 씨는 뜻밖의 흥미를 발견했다. 기계와 장비를 직접 다루는 일이었다. 그래서 한국폴리텍대학에 다시 들어가 에너지·설비 계열 학과에서 전문성을 쌓았다.</p>
+        <p>그런데 졸업을 앞두자 취업이 막연하게 두려웠다. 진로 변경과 학업 중단, 짧았던 직장 경험을 자신의 부족함이자 실패로만 여기고 있었기 때문이다. 구직 자체가 심리적 부담이 되었다.</p>
+        <div class="policy">
+            <div class="policy-ttl">📋 도현 씨의 시작점</div>
+            <p>연령 · 만 26세 / 남성<br>
+            유형 · 졸업생 특화 프로그램 미취업 지역청년<br>
+            기간 · 2026. 6. 4. ~ 8. 3.<br>
+            이력 · 산업디자인 전공 → 학업 중단 → 이벤트 기획사 8개월 → 기계·설비 계열 재진학<br>
+            희망 직종 · 미설정</p>
+        </div>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">2</span><span class="pg-rt">돌아온 길이 지도가 되어</span></div>
+</div>
+<!-- 3장 -->
+<div class="page chap" id="case16-ch3">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--mint)"></div>
+        <span class="chap-n">Chapter 03</span>
+        <h2 class="chap-title">실패가 아닌 탐색</h2>
+        <span class="chap-sub">상담 방향 설정</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>나는 도현 씨의 경험을 긍정적인 성장 자산으로 다시 해석하기로 했다. 그리고 직업적성을 확인하는 상담으로 목표를 구체화했다.</p>
+        <p>순서는 이랬다. 먼저 자신감을 되찾는다. 그다음에 실제 채용 기회로 잇는다. 단계별로 맞춘 사례관리였다.</p>
+        <p>이를 상담에서는 경험의 재해석이라 한다. 같은 이력을 다른 이름으로 불러 주는 일이다.</p>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">3</span><span class="pg-rt">돌아온 길이 지도가 되어</span></div>
+</div>
+<!-- 4장 -->
+<div class="page chap" id="case16-ch4">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--lavender)"></div>
+        <span class="chap-n">Chapter 04</span>
+        <h2 class="chap-title">모든 경험이 이어져 있었다</h2>
+        <span class="chap-sub">강점 도출과 검사 해석</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>초기 상담에서 나는 도현 씨가 거쳐 온 학업 중단과 진로 변경을 실패로 읽지 않도록 도왔다. 산업디자인 전공, 이벤트 기획사 근무, 기계에 대한 흥미의 발견, 폴리텍 재진학. 하나하나가 지금의 직업 선택으로 이어진 의미 있는 과정이었다.</p>
+        <p>직업선호도검사와 해석 상담도 진행했다. 직업적 흥미와 적성을 확인하고, 지금의 전공과 희망 직무에 연결했다. 그러자 취업 목표가 구체적으로 보이기 시작했고, 도현 씨는 자신이 한 선택에 확신을 갖게 되었다.</p>
+        <div class="policy">
+            <div class="policy-ttl">🧭 경험의 연결</div>
+            <p>산업디자인 전공 → 학업 중단<br>
+            → 이벤트 기획사 8개월, 기계·장비를 다루는 일에 흥미 발견<br>
+            → 폴리텍 에너지·설비 계열 재진학, 기계·설비 전문성<br>
+            → 기계·설비 분야 직무로 취업 목표 구체화</p>
+        </div>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">4</span><span class="pg-rt">돌아온 길이 지도가 되어</span></div>
+</div>
+<!-- 5장 -->
+<div class="page chap" id="case16-ch5">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--peach)"></div>
+        <span class="chap-n">Chapter 05</span>
+        <h2 class="chap-title">심폐소생술 자격증 하나</h2>
+        <span class="chap-sub">작은 성공의 경험</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>두려움을 줄이려면 비교적 짧은 시간에 성취를 경험해 볼 필요가 있었다. 졸업생 특화 프로그램에서 기획한 지역청년과 함께하는 심폐소생술(BLS) 일반인 심화과정에 참여하도록 하고, 자격증 취득을 지원했다.</p>
+        <p>희망 직무와 직접 이어지는 전문 자격은 아니었다. 그러나 현장에서 응급 상황이 생겼을 때 쓸 수 있는 역량이었고, 무엇보다 스스로 정한 목표를 끝까지 해냈다는 눈에 보이는 성취였다. 도현 씨는 자신의 가능성을 다시 확인했다.</p>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">5</span><span class="pg-rt">돌아온 길이 지도가 되어</span></div>
+</div>
+<!-- 6장 -->
+<div class="page chap" id="case16-ch6">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--blush)"></div>
+        <span class="chap-n">Chapter 06</span>
+        <h2 class="chap-title">첫 번째 채용 기회</h2>
+        <span class="chap-sub">고용센터 연계: 채용대행과 면접 불참</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>목표가 구체화되고 자신감이 오르자 실제 채용 기회로 넓혀 갔다. 기계·설비 분야의 구인정보를 찾던 중, 광주고용센터가 채용을 대행하는 제조기업의 생산기술직을 추천했다. 입사지원서 컨설팅과 AI 역량검사 컨설팅도 했다.</p>
+        <p>취업 준비와 실제 채용 사이의 간극을 줄이려고, 학교의 개별 상담과 사례관리 기능에 고용센터의 채용대행을 이어 붙인 것이다.</p>
+        <p>그런데 도현 씨가 개인 사정으로 면접에 참석하지 못했다. 어렵게 만든 첫 번째 채용 기회가 이어지지 못했다.</p>
+        <!-- [재구성] -->
+        <p>나는 도현 씨가 이 일을 지난 실패와 한 줄로 묶지 않도록 말했다. “이번에 놓친 기회가 곧 도현 씨의 한계를 뜻하지는 않아요.”</p>
+        <p>그러고 나서 새로운 채용 기회를 함께 찾았다.</p>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">6</span><span class="pg-rt">돌아온 길이 지도가 되어</span></div>
+</div>
+<!-- 7장 -->
+<div class="page chap" id="case16-ch7">
+    <div class="chap-hd"><div class="hd-blob" style="background:var(--butter)"></div>
+        <span class="chap-n">Chapter 07</span>
+        <h2 class="chap-title">이력을 이야기로 바꾸다</h2>
+        <span class="chap-sub">구직활동 지원과 취업 과정 (8월 3일)</span>
+    </div><div class="chap-hd-rule"></div>
+    <div class="chap-body">
+        <p>다음 기회는 학교가 추천한 중견기업이었다. 이번에는 그 기업에 맞춘 집중 컨설팅을 했다.</p>
+        <p>입사지원서에는 이벤트 기획사에서 기계와 장비를 다루며 흥미를 발견한 경험과, 폴리텍 재진학으로 직무역량을 키운 과정을 이어서 썼다. 학업 중단과 진로 변경이라는 이력이 단순한 공백이나 불안정한 선택이 아니라, 자신의 적성을 찾아 적극적으로 도전해 온 경험으로 읽히게 하는 것이 목표였다.</p>
+        <p>모의 면접도 두 번 했다. 진로 변경 사유, 직무 선택 동기, 전공 관련 역량 같은 예상 질문의 답을 구체화하고, 반복되는 피드백으로 강점을 자신 있게 말하도록 연습했다.</p>
+        <p>8월 3일, 도현 씨는 기계설비유지관리자 채용 전형에 최종 합격해 취업했다. 첫 상담 6월 4일에서 두 달 만이었다.</p>
+        <div class="policy">
+            <div class="policy-ttl">🏁 취업 결과</div>
+            <p>취업일 · 2026. 8. 3.<br>
+            희망 직종 · 미설정 → 취업 직종 · 기계설비유지관리자<br>
+            지원 규모 · 전문상담과 컨설팅 10회<br>
+            지원 흐름 · 졸업생 특화 프로그램 → 고용센터 채용대행 → 학교 추천 기업 연계 → 기업 맞춤형 컨설팅</p>
+        </div>
+    </div>
+    <div class="chap-end">✦ ✦ ✦</div>
+    <div class="pg-foot"><span class="pg-num">7</span><span class="pg-rt">돌아온 길이 지도가 되어</span></div>
+</div>
+
+<!-- 에필로그 -->
+<div class="page chap" id="case16-epilogue">
+    <div class="chap-hd epilogue-hd"><div class="hd-blob" style="background:var(--mint)"></div>
+        <span class="chap-n" style="color:var(--sage)">Epilogue</span>
+        <h2 class="chap-title">돌아온 길도 지도였다</h2>
+        <span class="chap-sub">상담사로서 다시 새긴 것</span>
+    </div>
+    <div class="chap-hd-rule" style="background:linear-gradient(90deg,var(--sage),transparent)"></div>
+    <div class="chap-body">
+        <p>도현 씨가 처음 가져온 것은 중퇴, 전공 변경, 짧은 직장 경험이라는 세 줄의 이력이었다. 그는 그것을 부족함으로 읽고 있었다. 우리가 한 일은 그 세 줄을 하나의 이야기로 이어 놓은 것이었다.</p>
+        <p>진로 미설정으로 여러 경험을 거쳐 온 청년에게는, 자신의 경험을 긍정적으로 바라보게 하는 상담이 먼저 필요하다. 그 위에 작은 성취로 자신감을 회복하고, 실제 채용 기회를 주고, 기업에 맞춘 컨설팅을 하는 순서가 이어질 때 비로소 취업이라는 결과가 나온다고 생각한다.</p>
+        <p>한 번의 기회를 놓친 것이 구직 포기로 이어지지 않도록 곁에서 이어 준 점도, 이 사례에서 지켜 낸 중요한 일이라고 본다. 다만 8월 3일 이후 새 직장에서의 적응은 앞으로 확인해야 할 몫이다.</p>
+        <p>돌아온 길은 낭비가 아니었다. 그 길을 전부 그려 넣으니 하나의 지도가 되었다.</p>
+    </div>
+    <div class="chap-end" style="color:var(--sage);font-size:13pt;">— ❀ —</div>
+    <div class="pg-foot"><span class="pg-num">에필로그</span><span class="pg-rt">돌아온 길이 지도가 되어</span></div>
+</div>
+
+<!-- 뒷표지 -->
+<div class="page back-cover">
+    <div class="c-blob cb2"></div><div class="c-blob cb4"></div>
+    <div class="c-blob" style="width:180px;height:180px;background:var(--blush);filter:blur(70px);opacity:.50;bottom:-20px;left:-30px;position:absolute;"></div>
+    <div class="back-inner">
+        <div style="margin-top:auto;text-align:center;">
+            <svg width="90" height="62" viewBox="0 0 90 62" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:7mm;opacity:.82;">
+                <ellipse cx="26" cy="50" rx="14" ry="7" fill="rgba(110,175,120,.34)" transform="rotate(-26 26 50)"/>
+                <ellipse cx="64" cy="48" rx="12" ry="6" fill="rgba(110,175,120,.27)" transform="rotate(20 64 48)"/>
+                <path d="M45 53 Q41 38 35 22" stroke="rgba(90,155,100,.60)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+                <path d="M45 53 Q48 36 56 19" stroke="rgba(90,155,100,.50)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+                <path d="M45 53 Q45 36 45 17" stroke="rgba(90,155,100,.55)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+                <ellipse cx="37" cy="18" rx="7" ry="4" fill="rgba(249,200,175,.72)" transform="rotate(-40 37 18)"/>
+                <ellipse cx="47" cy="17" rx="7" ry="4" fill="rgba(249,200,175,.66)" transform="rotate(40 47 17)"/>
+                <ellipse cx="36" cy="27" rx="7" ry="4" fill="rgba(249,200,175,.62)" transform="rotate(-140 36 27)"/>
+                <ellipse cx="47" cy="27" rx="7" ry="4" fill="rgba(249,200,175,.66)" transform="rotate(140 47 27)"/>
+                <circle cx="42" cy="22" r="5.5" fill="rgba(245,215,105,.88)"/>
+                <circle cx="42" cy="22" r="2.8" fill="rgba(238,205,55,1)"/>
+                <ellipse cx="56" cy="15" rx="6" ry="3.5" fill="rgba(210,188,232,.68)" transform="rotate(-40 56 15)"/>
+                <ellipse cx="65" cy="15" rx="6" ry="3.5" fill="rgba(210,188,232,.62)" transform="rotate(40 65 15)"/>
+                <ellipse cx="55" cy="23" rx="6" ry="3.5" fill="rgba(210,188,232,.58)" transform="rotate(-140 55 23)"/>
+                <ellipse cx="66" cy="23" rx="6" ry="3.5" fill="rgba(210,188,232,.62)" transform="rotate(140 66 23)"/>
+                <circle cx="60" cy="19" r="5" fill="rgba(245,215,105,.80)"/>
+                <circle cx="60" cy="19" r="2.3" fill="rgba(238,205,55,1)"/>
+                <ellipse cx="14" cy="38" rx="4" ry="2" fill="rgba(249,200,175,.38)" transform="rotate(-26 14 38)"/>
+                <ellipse cx="78" cy="34" rx="3.5" ry="1.8" fill="rgba(210,188,232,.34)" transform="rotate(16 78 34)"/>
+            </svg>
+            <div class="back-quote">
+                <strong>"돌아온 길도 지도였다."</strong>
+                <p>학업 중단과 재진학의 시간을<br>강점으로 바꾼 청년의 기록</p>
+            </div>
+            <div class="back-rule"></div>
+        </div>
+        <div class="back-inst">목포고용센터 취업지원총괄팀<br>취업성공 사례집 · 2026</div>
+    </div>
+</div>
+
+</div><!-- /book -->
+
+<button class="dl-btn" id="dlBtn" onclick="downloadPDF()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    PDF 다운로드
+</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+async function downloadPDF(){
+    const btn=document.getElementById('dlBtn');
+    btn.disabled=true; btn.textContent='⏳ 생성 중...';
+    const opt={margin:0,filename:'돌아온_길이_지도가_되어.pdf',image:{type:'jpeg',quality:.97},
+        html2canvas:{scale:2,useCORS:true,logging:false},
+        jsPDF:{unit:'mm',format:'a5',orientation:'portrait'},
+        pagebreak:{mode:['css','legacy'],after:'.page'}};
+    try{ await html2pdf().set(opt).from(document.getElementById('book')).save(); }
+    catch(e){ alert('PDF 생성 오류. Ctrl+P → PDF로 저장해 주세요.'); }
+    finally{
+        btn.disabled=false;
+        btn.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> PDF 다운로드';
+    }
+}
+</script>
+</body>
+</html>
